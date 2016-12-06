@@ -24,6 +24,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .coverage
 .cache
+.coverage.*
 
 # Sphinx documentation
 docs/_build/

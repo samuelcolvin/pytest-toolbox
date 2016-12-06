@@ -14,6 +14,12 @@ tmpworkdir
     Run the test with the working directory set to a temporary directory. Similar to the pytest plugin ``tmpdir``
     except working directory is changed.
 
+caplog
+    capture logs.
+
+debug
+    print all logs.
+
 Methods
 -------
 
@@ -24,12 +30,6 @@ mktree
 
 gettree
     Return a dictionary depicting a directory tree.
-
-caplog
-    capture logs.
-
-debug
-    print all logs.
 
 Usage
 -----

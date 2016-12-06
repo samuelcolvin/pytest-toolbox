@@ -1,0 +1,12 @@
+[run]
+source = pytest_toolbox
+branch = True
+concurrency = multiprocessing
+parallel = True
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+    raise NotImplementedError
+    raise NotImplemented

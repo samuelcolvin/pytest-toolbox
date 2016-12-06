@@ -1,7 +1,7 @@
 .PHONY: install
 install:
 	pip install -U pip setuptools
-	pip install .
+	pip install -e .
 	pip install -r tests/requirements.txt
 
 .PHONY: isort
@@ -11,7 +11,7 @@ isort:
 
 .PHONY: lint
 lint:
-	python setup.py check -rms
+	coverage run setup.py check -rms
 	flake8 pytest_toolbox/ tests/
 	pytest pytest_toolbox -p no:sugar -q --cache-clear
 
