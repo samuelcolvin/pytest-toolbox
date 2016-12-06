@@ -11,9 +11,9 @@ isort:
 
 .PHONY: lint
 lint:
-	coverage run setup.py check -rms
 	flake8 pytest_toolbox/ tests/
 	pytest pytest_toolbox -p no:sugar -q --cache-clear
+	coverage run setup.py check -rms
 
 .PHONY: test
 test:

@@ -15,8 +15,9 @@ install:
 - make install
 
 script:
-- make lint
 - make test
+- make lint
+- coverage run pytest_toolbox/__init__.py
 
 after_success:
 - ls -lha
