@@ -115,23 +115,31 @@ class StreamLog:
     """
     Log stream object which allows one or more logs to be captured and tested.
     """
-    def __init__(self):
+    def __init__(self, *log_names, level=logging.INFO, fmt='%(name)s %(levelname)s: %(message)s'):
         self.handler = None
         self.stream = io.StringIO()
         self.handler = logging.StreamHandler(stream=self.stream)
         self.loggers = []
+        self._log_names = log_names or ('',)
+        self._level = level
+        self._fmt = fmt
         self.set_loggers()
 
-    def set_loggers(self, *log_names, level=logging.INFO, fmt='%(name)s %(levelname)s: %(message)s'):
+    def set_loggers(self, *, log_names=None, level=None, fmt=None):
         if self.loggers:
             self.finish()
-        log_names = log_names or ('',)
-        self.loggers = [logging.getLogger(log_name) for log_name in log_names]
-        self.handler.setFormatter(logging.Formatter(fmt))
+        if log_names is not None:
+            self._log_names = log_names or ('',)
+        if level is not None:
+            self._level = level
+        if fmt is not None:
+            self._fmt = fmt
+        self.loggers = [logging.getLogger(log_name) for log_name in self._log_names]
+        self.handler.setFormatter(logging.Formatter(self._fmt))
         for logger in self.loggers:
             logger.disabled = False
             logger.addHandler(self.handler)
-        self.set_level(level)
+        self.set_level(self._level)
 
     def set_level(self, level):
         for logger in self.loggers:

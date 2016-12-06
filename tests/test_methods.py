@@ -48,6 +48,18 @@ def test_caplog(caplog):
     assert repr(caplog) == "< caplog: 'foobar INFO: this is to info\\n'>"
 
 
+def test_caplog_change(caplog):
+    caplog.set_loggers(log_names=('foo',), level=logging.WARNING, fmt='%(message)s')
+    logger_foo = logging.getLogger('foo')
+    logger_foo.info('this is to foo info')
+    logger_foo.warning('this is to foo warning')
+    logger_bar = logging.getLogger('bar')
+    logger_bar.info('this is to bar info')
+    logger_bar.warning('this is to bar warning')
+
+    assert 'this is to foo warning\n' == caplog
+
+
 def test_caplog_debug(caplog):
     caplog.set_different_level(foobar=logging.DEBUG)
     logger = logging.getLogger('foobar')
