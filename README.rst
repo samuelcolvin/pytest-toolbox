@@ -20,6 +20,9 @@ caplog
 debug
     print all logs.
 
+loop
+    asyncio loop.
+
 Methods
 -------
 
@@ -36,10 +39,13 @@ Usage
 
 .. code:: python
 
+    from pytest_toolbox import gettree, mktree
+
     def test_whatever(tmpworkdir):
         mktree(tmpworkdir, {
             'foobar.txt': 'has this content'
         })
+        assert gettree(tmpworkdir) = {'foobar.txt': 'has this content'}
 
 **TODO**
 

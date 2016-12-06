@@ -3,6 +3,7 @@ import contextlib
 import io
 import logging
 import os
+import re
 from copy import copy
 
 import pytest
@@ -111,12 +112,9 @@ def gettree(lp: LocalPath, max_len=120):
         raise RuntimeError('not directory or file: {}'.format(lp))
 
 
-LOGS = ('arq.main', 'arq.work', 'arq.jobs')
-
-
 class StreamLog:
     """
-    Log stream object which allows one or more lots to be captured and tested.
+    Log stream object which allows one or more logs to be captured and tested.
     """
     def __init__(self):
         self.handler = None
@@ -125,10 +123,10 @@ class StreamLog:
         self.loggers = []
         self.set_loggers()
 
-    def set_loggers(self, *log_names, level=logging.INFO, fmt='%(name)s: %(message)s'):
+    def set_loggers(self, *log_names, level=logging.INFO, fmt='%(name)s %(levelname)s: %(message)s'):
         if self.loggers:
             self.finish()
-        log_names = log_names or LOGS
+        log_names = log_names or ('',)
         self.loggers = [logging.getLogger(log_name) for log_name in log_names]
         self.handler.setFormatter(logging.Formatter(fmt))
         for logger in self.loggers:
@@ -140,7 +138,8 @@ class StreamLog:
         for logger in self.loggers:
             logger.setLevel(level)
 
-    def set_different_level(self, **levels):
+    @classmethod
+    def set_different_level(cls, **levels):
         for log_name, level in levels.items():
             logger = logging.getLogger(log_name)
             logger.setLevel(level)
@@ -154,11 +153,20 @@ class StreamLog:
         for logger in self.loggers:
             logger.removeHandler(self.handler)
 
+    def __call__(self, *normalisers):
+        log = str(self)
+        for pattern, repl in normalisers:
+            log = re.sub(pattern, repl, log)
+        return log
+
+    def __eq__(self, other):
+        return self.log == other
+
     def __contains__(self, item):
         return item in self.log
 
     def __str__(self):
-        return 'caplog:\n' + self.log
+        return self.log
 
     def __repr__(self):
         return '< caplog: {!r}>'.format(self.log)

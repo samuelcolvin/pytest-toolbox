@@ -21,4 +21,4 @@ test:
 
 .PHONY: testcov
 testcov:
-	py.test --cov=pytest_toolbox && (echo "building coverage html"; coverage html)
+	py.test --cov=pytest_toolbox && (echo "building coverage html"; coverage combine; coverage html)

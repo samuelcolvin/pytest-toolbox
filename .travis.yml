@@ -20,6 +20,7 @@ script:
 
 after_success:
 - ls -lha
+- coverage combine
 - bash <(curl -s https://codecov.io/bash)
 
 deploy:
