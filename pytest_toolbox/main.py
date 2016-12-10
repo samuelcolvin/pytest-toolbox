@@ -202,7 +202,7 @@ def debug():
     # TODO: could be extended to also work as a context manager and allow more control.
     handler = logging.StreamHandler()
     handler.setLevel(logging.DEBUG)
-    handler.setFormatter(logging.Formatter('%(asctime)s %(name)8s %(levelname)8s: %(message)s', datefmt='%H:%M:%S'))
+    handler.setFormatter(logging.Formatter('%(asctime)s %(name)14s %(levelname)7s: %(message)s', datefmt='%H:%M:%S'))
     logger = logging.getLogger('')
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
