@@ -37,6 +37,13 @@ def test_gettree(tmpdir):
     } == gettree(tmpdir)
 
 
+def test_gettree_truncate(tmpdir):
+    tmpdir.join('foo').write_text('123456789', 'utf8')
+    assert {
+        'foo': '12...'
+    } == gettree(tmpdir, max_len=5)
+
+
 def test_caplog(caplog):
     logger = logging.getLogger('foobar')
     logger.info('this is to info')

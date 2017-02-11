@@ -26,7 +26,7 @@ def loop_context(existing_loop=None):
 
         yield _loop
 
-        if not _loop.is_closed():
+        if not _loop.is_closed():  # pragma: no branch
             _loop.call_soon(_loop.stop)
             _loop.run_forever()
             _loop.close()
