@@ -26,9 +26,10 @@ def loop_context(existing_loop=None):
 
         yield _loop
 
-        _loop.stop()
-        _loop.run_forever()
-        _loop.close()
+        if not _loop.is_closed():
+            _loop.call_soon(_loop.stop)
+            _loop.run_forever()
+            _loop.close()
         asyncio.set_event_loop(None)
 
 
