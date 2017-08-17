@@ -214,14 +214,19 @@ def debug():
     be removed before committing.
     """
     # TODO: could be extended to also work as a context manager and allow more control.
+    logger = logging.getLogger()
+    root_handler = logger.handlers[0]
+    prev_level = logger.level
+
     handler = logging.StreamHandler()
     handler.setLevel(logging.DEBUG)
-    handler.setFormatter(logging.Formatter('%(asctime)s %(name)14s %(levelname)7s: %(message)s', datefmt='%H:%M:%S'))
-    logger = logging.getLogger('')
+    handler.setFormatter(logging.Formatter('%(asctime)s %(name)18s %(levelname)7s: %(message)s', datefmt='%H:%M:%S'))
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
+    logger.removeHandler(root_handler)
 
     yield
 
     logger.removeHandler(handler)
-    logger.setLevel(logging.NOTSET)
+    logger.addHandler(root_handler)
+    logger.setLevel(prev_level)
