@@ -215,8 +215,12 @@ def debug():
     """
     # TODO: could be extended to also work as a context manager and allow more control.
     logger = logging.getLogger()
-    root_handler = logger.handlers[0]
-    prev_level = logger.level
+    try:
+        root_handler = logger.handlers[0]
+    except IndexError:
+        root_handler = None
+    else:
+        prev_level = logger.level
 
     handler = logging.StreamHandler()
     handler.setLevel(logging.DEBUG)
@@ -228,5 +232,6 @@ def debug():
     yield
 
     logger.removeHandler(handler)
-    logger.addHandler(root_handler)
-    logger.setLevel(prev_level)
+    if root_handler:
+        logger.addHandler(root_handler)
+        logger.setLevel(prev_level)
