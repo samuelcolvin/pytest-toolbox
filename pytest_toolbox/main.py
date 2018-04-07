@@ -4,7 +4,6 @@ import io
 import logging
 import os
 import re
-import warnings
 from copy import copy
 
 import pytest
@@ -42,28 +41,17 @@ def pytest_pycollect_makeitem(collector, name, obj):
         return list(collector._genfunctions(name, obj))
 
 
-@contextlib.contextmanager
-def warning_context():
-    with warnings.catch_warnings(record=True) as _warnings:
-        yield
-        rw = ['{w.filename}:{w.lineno}:{w.message}'.format(w=w) for w in _warnings if w.category == RuntimeWarning]
-        if rw:
-            sp = '' if len(rw) == 1 else 's'
-            raise RuntimeError('{} Runtime Warning{},\n{}'.format(len(rw), sp, '\n'.join(rw)))
-
-
 def pytest_pyfunc_call(pyfuncitem):
     """
     Run coroutines in an event loop instead of a normal function call.
     """
     if asyncio.iscoroutinefunction(pyfuncitem.function):
         existing_loop = pyfuncitem.funcargs.get('loop', None)
-        with warning_context():
-            with loop_context(existing_loop) as _loop:
-                testargs = {arg: pyfuncitem.funcargs[arg] for arg in pyfuncitem._fixtureinfo.argnames}
+        with loop_context(existing_loop) as _loop:
+            testargs = {arg: pyfuncitem.funcargs[arg] for arg in pyfuncitem._fixtureinfo.argnames}
 
-                task = _loop.create_task(pyfuncitem.obj(**testargs))
-                _loop.run_until_complete(task)
+            task = _loop.create_task(pyfuncitem.obj(**testargs))
+            _loop.run_until_complete(task)
 
         return True
 
@@ -73,9 +61,8 @@ def loop():
     """
     Yield fixture using loop_context()
     """
-    with warning_context():
-        with loop_context() as _loop:
-            yield _loop
+    with loop_context() as _loop:
+        yield _loop
 
 
 @pytest.yield_fixture

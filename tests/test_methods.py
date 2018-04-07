@@ -109,21 +109,3 @@ def test_print_logs(print_logs):
     result.assert_outcomes(passed=1)
     _, stderr = capsys.readouterr()
     assert 'this is to debug' in stderr
-
-
-def test_warning_checks(testdir, capsys):
-    testdir.makepyfile("""\
-async def foobar():
-    return 123
-
-async def test_good():
-    v = await foobar()
-    assert v == 123
-
-async def test_bad():
-    foobar()
-""")
-    result = testdir.runpytest('-p', 'no:sugar', '-s')
-    result.assert_outcomes(passed=1, failed=1)
-    stdout, _ = capsys.readouterr()
-    assert "test_warning_checks.py:9:coroutine 'foobar' was never awaited" in stdout
