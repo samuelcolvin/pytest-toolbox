@@ -9,6 +9,7 @@ History
 * rename ``caplog`` > ``smart_caplog``
 * rename ``debug`` > ``print_logs``
 * updates
+* remove python 3.5 support, now 3.6 only due to pydantic requirement
 
 0.3.0 (2017-03-11)
 ------------------

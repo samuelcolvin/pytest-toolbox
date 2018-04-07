@@ -13,12 +13,12 @@ class CloseToNow:
         self.other = None
 
     def __eq__(self, other):
-        try:
-            from pydantic.datetime_parse import parse_datetime
-        except ImportError:  # pragma: no cover
-            raise ImportError('pydantic is required to use CloseToNow, please run `pip install pydantic`')
         self.other = other
         if not isinstance(other, datetime):
+            try:
+                from pydantic.datetime_parse import parse_datetime
+            except ImportError:  # pragma: no cover
+                raise ImportError('pydantic is required to use CloseToNow, please run `pip install pydantic`')
             other = parse_datetime(other)
         if other.tzinfo:
             self.now = self.now.replace(tzinfo=timezone.utc)
@@ -31,7 +31,7 @@ class CloseToNow:
             return repr(self.other)
         else:
             # else return something which explains what's going on.
-            return '<CloseToNow(delta={self.delta}, now={self.now:%Y-%m-%dT%H:%M:%S})>'.format(self=self)
+            return f'<CloseToNow(delta={self.delta}, now={self.now:%Y-%m-%dT%H:%M:%S})>'
 
 
 class AnyInt:
@@ -65,7 +65,7 @@ class RegexStr:
 
     def __repr__(self):
         if self.v is None:
-            return '<RegexStr(regex={!r}>'.format(self._regex)
+            return f'<RegexStr(regex={self._regex!r}>'
         else:
             return repr(self.v)
 
