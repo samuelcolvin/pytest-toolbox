@@ -10,17 +10,17 @@ Numerous useful plugins for pytest.
 Fixtures
 --------
 
-tmpworkdir
+``tmpworkdir``
     Run the test with the working directory set to a temporary directory. Similar to the pytest plugin ``tmpdir``
     except working directory is changed.
 
-smart_caplog
+``smart_caplog``
     capture logs with a smarter interface than pytest's native ``caplog``
 
-print_logs
+``print_logs``
     print all logs.
 
-loop
+``loop``
     asyncio loop.
 
 Methods
@@ -28,11 +28,50 @@ Methods
 
 (See below for usage examples).
 
-mktree
+``mktree``
     Create a tree of files from a dictionary.
 
-gettree
+``gettree``
     Return a dictionary depicting a directory tree.
+
+
+Comparison Objects
+------------------
+
+All can be imported from ``pytest_toolbox.comparison``.
+
+``CloseToNow``
+    check that a date (or date-like object) is close to now
+
+``AnyInt``
+    check tests that an object is an int
+
+``RegexStr``
+    check that a string matches the regex
+
+``IsUUID``
+    that that an object is an instance of ``UUID``.
+
+Used with equals as in ``my_date == CloseToNow()``, these are useful when checking objects which contain
+a few unknown values are as expected
+
+Eg.
+
+.. code-block:: python
+
+   assert {
+       'details': {
+           'user': 'foobar@example.com',
+           'id': AnyInt(),
+           'published': False,
+           'event': 'an example',
+           'created_ts': CloseToNow(),
+       },
+       'other_thing': [
+           ...
+       ],
+       ...
+   } == obj
 
 Usage
 -----

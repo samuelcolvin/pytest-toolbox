@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := all
+
 .PHONY: install
 install:
 	pip install -U pip setuptools
@@ -22,3 +24,6 @@ test:
 .PHONY: testcov
 testcov:
 	py.test --cov=pytest_toolbox && (echo "building coverage html"; coverage combine; coverage html)
+
+.PHONY: all
+all: testcov lint

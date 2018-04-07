@@ -33,8 +33,9 @@ setup(
     include_package_data=True,
     zip_safe=True,
     platforms='any',
+    python_requires='>=3.6',
     install_requires=[
-        'pytest>=3.0.5',
+        'pytest>=3.5.0',
     ],
     entry_points={
         'pytest11': ['toolbox = pytest_toolbox'],
