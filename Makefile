@@ -1,8 +1,8 @@
 .PHONY: install
 install:
 	pip install -U pip setuptools
-	pip install -e .
 	pip install -r tests/requirements.txt
+	pip install -e .
 
 .PHONY: isort
 isort:

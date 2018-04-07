@@ -44,19 +44,19 @@ def test_gettree_truncate(tmpdir):
     } == gettree(tmpdir, max_len=5)
 
 
-def test_caplog(caplog):
+def test_smart_caplog(smart_caplog):
     logger = logging.getLogger('foobar')
     logger.info('this is to info')
     logger.debug('this is to debug')
 
-    assert 'foobar INFO: this is to info\n' == caplog == str(caplog)
-    assert 'foobar INFO: that is to info\n' == caplog(('this', 'that'))
-    assert 'to info' in caplog
-    assert repr(caplog) == "< caplog: 'foobar INFO: this is to info\\n'>"
+    assert 'foobar INFO: this is to info\n' == smart_caplog == str(smart_caplog)
+    assert 'foobar INFO: that is to info\n' == smart_caplog(('this', 'that'))
+    assert 'to info' in smart_caplog
+    assert repr(smart_caplog) == "< caplog: 'foobar INFO: this is to info\\n'>"
 
 
-def test_caplog_change(caplog):
-    caplog.set_loggers(log_names=('foo',), level=logging.WARNING, fmt='%(message)s')
+def test_caplog_change(smart_caplog):
+    smart_caplog.set_loggers(log_names=('foo',), level=logging.WARNING, fmt='%(message)s')
     logger_foo = logging.getLogger('foo')
     logger_foo.info('this is to foo info')
     logger_foo.warning('this is to foo warning')
@@ -64,16 +64,16 @@ def test_caplog_change(caplog):
     logger_bar.info('this is to bar info')
     logger_bar.warning('this is to bar warning')
 
-    assert 'this is to foo warning\n' == caplog
+    assert 'this is to foo warning\n' == smart_caplog
 
 
-def test_caplog_debug(caplog):
-    caplog.set_different_level(foobar=logging.DEBUG)
+def test_caplog_debug(smart_caplog):
+    smart_caplog.set_different_level(foobar=logging.DEBUG)
     logger = logging.getLogger('foobar')
     logger.info('this is to info')
     logger.debug('this is to debug')
 
-    assert 'foobar INFO: this is to info\nfoobar DEBUG: this is to debug\n' == caplog
+    assert 'foobar INFO: this is to info\nfoobar DEBUG: this is to debug\n' == smart_caplog
 
 
 def test_tmpworkdir(tmpworkdir):
@@ -100,7 +100,7 @@ def test_debug(testdir, capsys):
     testdir.makepyfile("""\
 import logging
 
-def test_debug(debug):
+def test_print_logs(print_logs):
     logger = logging.getLogger('foobar')
     logger.info('this is to info')
     logger.debug('this is to debug')

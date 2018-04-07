@@ -194,7 +194,7 @@ class StreamLog:
 
 
 @pytest.yield_fixture
-def caplog():
+def smart_caplog():
     """
     Similar to pytest's "capsys" except logs are captured not stdout and stderr
 
@@ -208,9 +208,9 @@ def caplog():
 
 
 @pytest.yield_fixture
-def debug():
+def print_logs():
     """
-    fixture which causes all arq logs to display. For debugging purposes only, should alwasy
+    fixture which causes all arq logs to display. For debugging purposes only, should always
     be removed before committing.
     """
     # TODO: could be extended to also work as a context manager and allow more control.

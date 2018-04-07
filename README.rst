@@ -14,10 +14,10 @@ tmpworkdir
     Run the test with the working directory set to a temporary directory. Similar to the pytest plugin ``tmpdir``
     except working directory is changed.
 
-caplog
-    capture logs.
+smart_caplog
+    capture logs with a smarter interface than pytest's native ``caplog``
 
-debug
+print_logs
     print all logs.
 
 loop
