@@ -31,7 +31,7 @@ class CloseToNow:
             return repr(self.other)
         else:
             # else return something which explains what's going on.
-            return f'<CloseToNow(delta={self.delta}, now={self.now:%Y-%m-%dT%H:%M:%S})>'
+            return '<CloseToNow(delta={self.delta}, now={self.now:%Y-%m-%dT%H:%M:%S})>'.format(self=self)
 
 
 class AnyInt:
@@ -65,7 +65,7 @@ class RegexStr:
 
     def __repr__(self):
         if self.v is None:
-            return f'<RegexStr(regex={self._regex!r}>'
+            return '<RegexStr(regex={!r}>'.format(self._regex)
         else:
             return repr(self.v)
 
