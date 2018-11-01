@@ -4,7 +4,7 @@ docutils==0.14
 flake8==3.6.0
 pydantic==0.14
 pycodestyle==2.4.0
-pyflakes==1.6.0
+pyflakes==2.0.0
 pytest==3.5.0
 pytest-cov==2.5.1
 pytest-isort==0.1.0
