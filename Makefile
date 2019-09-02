@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := all
+isort = isort -rc pytest_toolbox tests
 
 .PHONY: install
 install:
@@ -8,13 +9,12 @@ install:
 
 .PHONY: isort
 isort:
-	isort -rc -w 120 pytest_toolbox
-	isort -rc -w 120 tests
+	$(isort)
 
 .PHONY: lint
 lint:
 	flake8 pytest_toolbox/ tests/
-	pytest pytest_toolbox -p no:sugar -q --cache-clear
+	$(isort) --check-only
 	coverage run setup.py check -rms
 
 .PHONY: test

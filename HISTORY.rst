@@ -6,6 +6,8 @@ History
 0.5.0 (2018-09-02)
 ------------------
 * remove ``loop`` fixture and stop coroutine collection, you should use ``pytest-aiohttp`` instead
+* move support to python 3.6 and 3.7
+* uprev all packages
 
 0.4.0 (2018-04-07)
 ------------------

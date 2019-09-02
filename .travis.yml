@@ -1,14 +1,17 @@
+os: linux
+dist: xenial
+sudo: required
 language: python
-
 cache: pip
 
 python:
 - '3.6'
-- 'nightly'
+- '3.7'
+- '3.8-dev'
 
 matrix:
   allow_failures:
-  - python: 'nightly'
+  - python: '3.8-dev'
 
 install:
 - make install
@@ -22,7 +25,6 @@ script:
 after_success:
 - ls -lha
 - coverage combine
-- coverage report
 - bash <(curl -s https://codecov.io/bash)
 
 deploy:

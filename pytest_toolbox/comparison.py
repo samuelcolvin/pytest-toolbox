@@ -42,6 +42,8 @@ class AnyInt:
         if type(other) == int:
             self.v = other
             return True
+        else:
+            return False
 
     def __repr__(self):
         if self.v is None:
@@ -61,7 +63,8 @@ class RegexStr:
         if self._regex.fullmatch(other):
             self.v = other
             return True
-        return False
+        else:
+            return False
 
     def __repr__(self):
         if self.v is None:
@@ -78,7 +81,9 @@ class IsUUID:
         if isinstance(other, UUID):
             self.v = other
             return True
-        # could also check for regex
+        else:
+            # could also check for regex
+            return False
 
     def __repr__(self):
         return repr(self.v) if self.v else '<UUID(*)>'
