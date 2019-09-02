@@ -78,34 +78,3 @@ def test_caplog_debug(smart_caplog):
 
 def test_tmpworkdir(tmpworkdir):
     assert os.getcwd() == str(tmpworkdir)
-
-
-def test_async_tests(testdir):
-    testdir.makepyfile("""\
-import asyncio
-
-async def get_4():
-    return 4
-
-async def test_async(loop):
-    assert isinstance(loop, asyncio.AbstractEventLoop)
-    v = await get_4()
-    assert v == 4
-""")
-    result = testdir.runpytest('-p', 'no:sugar')
-    result.assert_outcomes(passed=1)
-
-
-def test_debug(testdir, capsys):
-    testdir.makepyfile("""\
-import logging
-
-def test_print_logs(print_logs):
-    logger = logging.getLogger('foobar')
-    logger.info('this is to info')
-    logger.debug('this is to debug')
-""")
-    result = testdir.runpytest('-p', 'no:sugar', '-s')
-    result.assert_outcomes(passed=1)
-    _, stderr = capsys.readouterr()
-    assert 'this is to debug' in stderr
