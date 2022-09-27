@@ -1,6 +1,8 @@
 pytest-toolbox
 ==============
 
+**Note:** this repo is no-longer maintained, the best bits have been moved to https://github.com/samuelcolvin/dirty-equals
+
 |Build Status| |codecov.io| |PyPI Status| |license|
 
 Copyright (C) 2016 Samuel Colvin
